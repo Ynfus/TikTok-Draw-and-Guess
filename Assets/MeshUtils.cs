@@ -106,7 +106,7 @@ public class MeshUtils : MonoBehaviour
         mesh.triangles.CopyTo(triangles, 0);
 
         int index = vertices.Length / 4 - 1;
-        //Relocate vertices
+
         int vIndex = index * 4;
         int vIndex0 = vIndex;
         int vIndex1 = vIndex + 1;
@@ -131,13 +131,12 @@ public class MeshUtils : MonoBehaviour
             vertices[vIndex3] = pos + GetQuaternionEuler(rot - 0) * baseSize;
         }
 
-        //Relocate UVs
+
         uvs[vIndex0] = new Vector2(uv00.x, uv11.y);
         uvs[vIndex1] = new Vector2(uv00.x, uv00.y);
         uvs[vIndex2] = new Vector2(uv11.x, uv00.y);
         uvs[vIndex3] = new Vector2(uv11.x, uv11.y);
 
-        //Create triangles
         int tIndex = index * 6;
 
         triangles[tIndex + 0] = vIndex0;
@@ -152,14 +151,14 @@ public class MeshUtils : MonoBehaviour
         mesh.triangles = triangles;
         mesh.uv = uvs;
 
-        //mesh.bounds = bounds;
+
 
         return mesh;
     }
 
     public static void AddToMeshArrays(Vector3[] vertices, Vector2[] uvs, int[] triangles, int index, Vector3 pos, float rot, Vector3 baseSize, Vector2 uv00, Vector2 uv11)
     {
-        //Relocate vertices
+
         int vIndex = index * 4;
         int vIndex0 = vIndex;
         int vIndex1 = vIndex + 1;
@@ -184,13 +183,13 @@ public class MeshUtils : MonoBehaviour
             vertices[vIndex3] = pos + GetQuaternionEuler(rot - 0) * baseSize;
         }
 
-        //Relocate UVs
+
         uvs[vIndex0] = new Vector2(uv00.x, uv11.y);
         uvs[vIndex1] = new Vector2(uv00.x, uv00.y);
         uvs[vIndex2] = new Vector2(uv11.x, uv00.y);
         uvs[vIndex3] = new Vector2(uv11.x, uv11.y);
 
-        //Create triangles
+
         int tIndex = index * 6;
 
         triangles[tIndex + 0] = vIndex0;
@@ -202,50 +201,49 @@ public class MeshUtils : MonoBehaviour
         triangles[tIndex + 5] = vIndex2;
     }
 
-    public static void AddToMeshArraysXZ(Vector3[] vertices, Vector2[] uvs, int[] triangles, int index, Vector3 pos, float rot, Vector3 baseSize, Vector2 uv00, Vector2 uv11)
-    {
-        //Relocate vertices
-        int vIndex = index * 4;
-        int vIndex0 = vIndex;
-        int vIndex1 = vIndex + 1;
-        int vIndex2 = vIndex + 2;
-        int vIndex3 = vIndex + 3;
+    //public static void AddToMeshArraysXZ(Vector3[] vertices, Vector2[] uvs, int[] triangles, int index, Vector3 pos, float rot, Vector3 baseSize, Vector2 uv00, Vector2 uv11)
+    //{
 
-        baseSize *= .5f;
+    //    int vIndex = index * 4;
+    //    int vIndex0 = vIndex;
+    //    int vIndex1 = vIndex + 1;
+    //    int vIndex2 = vIndex + 2;
+    //    int vIndex3 = vIndex + 3;
 
-        bool skewed = baseSize.x != baseSize.z;
-        if (skewed)
-        {
-            vertices[vIndex0] = pos + GetQuaternionEulerXZ(rot) * new Vector3(-baseSize.x, 0, baseSize.z);
-            vertices[vIndex1] = pos + GetQuaternionEulerXZ(rot) * new Vector3(-baseSize.x, 0, -baseSize.z);
-            vertices[vIndex2] = pos + GetQuaternionEulerXZ(rot) * new Vector3(baseSize.x, 0, -baseSize.z);
-            vertices[vIndex3] = pos + GetQuaternionEulerXZ(rot) * baseSize;
-        }
-        else
-        {
-            vertices[vIndex0] = pos + GetQuaternionEulerXZ(rot - 270) * baseSize;
-            vertices[vIndex1] = pos + GetQuaternionEulerXZ(rot - 180) * baseSize;
-            vertices[vIndex2] = pos + GetQuaternionEulerXZ(rot - 90) * baseSize;
-            vertices[vIndex3] = pos + GetQuaternionEulerXZ(rot - 0) * baseSize;
-        }
+    //    baseSize *= .5f;
 
-        //Relocate UVs
-        uvs[vIndex0] = new Vector2(uv00.x, uv11.y);
-        uvs[vIndex1] = new Vector2(uv00.x, uv00.y);
-        uvs[vIndex2] = new Vector2(uv11.x, uv00.y);
-        uvs[vIndex3] = new Vector2(uv11.x, uv11.y);
+    //    bool skewed = baseSize.x != baseSize.z;
+    //    if (skewed)
+    //    {
+    //        vertices[vIndex0] = pos + GetQuaternionEulerXZ(rot) * new Vector3(-baseSize.x, 0, baseSize.z);
+    //        vertices[vIndex1] = pos + GetQuaternionEulerXZ(rot) * new Vector3(-baseSize.x, 0, -baseSize.z);
+    //        vertices[vIndex2] = pos + GetQuaternionEulerXZ(rot) * new Vector3(baseSize.x, 0, -baseSize.z);
+    //        vertices[vIndex3] = pos + GetQuaternionEulerXZ(rot) * baseSize;
+    //    }
+    //    else
+    //    {
+    //        vertices[vIndex0] = pos + GetQuaternionEulerXZ(rot - 270) * baseSize;
+    //        vertices[vIndex1] = pos + GetQuaternionEulerXZ(rot - 180) * baseSize;
+    //        vertices[vIndex2] = pos + GetQuaternionEulerXZ(rot - 90) * baseSize;
+    //        vertices[vIndex3] = pos + GetQuaternionEulerXZ(rot - 0) * baseSize;
+    //    }
 
-        //Create triangles
-        int tIndex = index * 6;
+    //    uvs[vIndex0] = new Vector2(uv00.x, uv11.y);
+    //    uvs[vIndex1] = new Vector2(uv00.x, uv00.y);
+    //    uvs[vIndex2] = new Vector2(uv11.x, uv00.y);
+    //    uvs[vIndex3] = new Vector2(uv11.x, uv11.y);
 
-        triangles[tIndex + 0] = vIndex0;
-        triangles[tIndex + 1] = vIndex3;
-        triangles[tIndex + 2] = vIndex1;
 
-        triangles[tIndex + 3] = vIndex1;
-        triangles[tIndex + 4] = vIndex3;
-        triangles[tIndex + 5] = vIndex2;
-    }
+    //    int tIndex = index * 6;
+
+    //    triangles[tIndex + 0] = vIndex0;
+    //    triangles[tIndex + 1] = vIndex3;
+    //    triangles[tIndex + 2] = vIndex1;
+
+    //    triangles[tIndex + 3] = vIndex1;
+    //    triangles[tIndex + 4] = vIndex3;
+    //    triangles[tIndex + 5] = vIndex2;
+    //}
 
 
 
@@ -256,12 +254,12 @@ public class MeshUtils : MonoBehaviour
 
     public static Mesh CreateLineMesh(Vector3 pointA, Vector3 pointB, Vector3 normal, float width)
     {
-        // Creates a Mesh with a Line segment going from pointA to pointB with width
+   
         Mesh mesh = new Mesh();
 
-        Vector3[] vertices = new Vector3[4]; // 2 vertices per point, one "left" one "right"
+        Vector3[] vertices = new Vector3[4];
         Vector2[] uv = new Vector2[4];
-        int[] triangles = new int[6]; // 6 triangles to make 2 polygons
+        int[] triangles = new int[6]; 
 
         float widthHalf = width * .5f;
 
@@ -273,7 +271,7 @@ public class MeshUtils : MonoBehaviour
         Vector3 vertexBRight = pointB + Vector3.Cross(dirAToB, normal * -1f) * widthHalf;
 
         int index = 0;
-        // Relocate vertices
+
         int vIndex = index * 4;
         int vIndex0 = vIndex;
         int vIndex1 = vIndex + 1;
@@ -286,13 +284,11 @@ public class MeshUtils : MonoBehaviour
         vertices[vIndex3] = vertexBRight;
 
 
-        // Relocate UVs
         uv[vIndex0] = new Vector2(0, 0);
         uv[vIndex1] = new Vector2(1, 0);
         uv[vIndex2] = new Vector2(0, 1);
         uv[vIndex3] = new Vector2(1, 1);
 
-        // Create triangles
         int tIndex = index * 6;
 
         triangles[tIndex + 0] = vIndex0;
@@ -335,7 +331,7 @@ public class MeshUtils : MonoBehaviour
 
     public static void AddLinePoint(Mesh mesh, Vector3 pointB, Vector3 pointBforward, Vector3 normal, float width)
     {
-        Vector3[] vertices = new Vector3[mesh.vertices.Length + 2]; // Add 2 more for pointB Left/Right
+        Vector3[] vertices = new Vector3[mesh.vertices.Length + 2]; 
         Vector2[] uv = new Vector2[mesh.uv.Length + 2];
         int[] triangles = new int[mesh.triangles.Length + 6];
 
@@ -349,16 +345,6 @@ public class MeshUtils : MonoBehaviour
         int vIndex2 = vIndex + 2;
         int vIndex3 = vIndex + 3;
 
-        /*
-        Vector3 lastVertexLeft = vertices[vIndex0];
-        Vector3 lastVertexRight = vertices[vIndex1];
-
-        Vector3 halfDirLastLeftToRight = (lastVertexRight - lastVertexLeft) * .5f;
-        Vector3 lastPoint = lastVertexLeft + halfDirLastLeftToRight;
-
-        Vector3 dirAToB = (pointB - lastPoint).normalized;
-        */
-
         float widthHalf = width * .5f;
 
         Vector3 vertexBLeft = pointB + Vector3.Cross(pointBforward, normal * +1f) * widthHalf;
@@ -367,11 +353,10 @@ public class MeshUtils : MonoBehaviour
         vertices[vIndex2] = vertexBLeft;
         vertices[vIndex3] = vertexBRight;
 
-        // Calculate Total Line Length
         float totalLengthUnits = 0f;
         Vector3 lastVertexPosition = vertices[0];
         for (int i = 0; i <= vIndex3; i += 2)
-        { // +=4 to always skip to the same Vertex on the next Quad
+        { 
             totalLengthUnits += Vector3.Distance(lastVertexPosition, vertices[i]);
             lastVertexPosition = vertices[i];
         }
@@ -381,9 +366,8 @@ public class MeshUtils : MonoBehaviour
         lastVertexPosition = vertices[0];
         float lastUVy = 0f;
         for (int i = 0; i <= vIndex3; i += 2)
-        { // +=4 to always skip to the same Vertex on the next Quad
+        { 
             thisLengthUnits += Vector3.Distance(lastVertexPosition, vertices[i]);
-            // Relocate UVs
             float thisUVy = thisLengthUnits / totalLengthUnits;
             uv[i + 0] = new Vector2(0, thisUVy);
             uv[i + 1] = new Vector2(1, thisUVy);
@@ -400,7 +384,6 @@ public class MeshUtils : MonoBehaviour
 
 
 
-        // Create triangles
         int tIndex = triangles.Length - 6;
 
         triangles[tIndex + 0] = vIndex0;

@@ -29,11 +29,9 @@ public class DrawMesh : MonoBehaviour
     {
         if (!GameManager.IsPointerOverUI())
         {
-            // Only run logic if not over UI
             Vector3 mouseWorldPosition = GameManager.GetMouseWorldPosition();
             if (Input.GetMouseButtonDown(0))
             {
-                // Mouse Down
                 CreateMeshObject();
                 mesh = MeshUtils.CreateMesh(mouseWorldPosition, mouseWorldPosition, mouseWorldPosition, mouseWorldPosition);
                 mesh.MarkDynamic();
@@ -45,11 +43,9 @@ public class DrawMesh : MonoBehaviour
 
             if (Input.GetMouseButton(0))
             {
-                // Mouse Held Down
                 float minDistance = .1f;
                 if (Vector2.Distance(lastMouseWorldPosition, mouseWorldPosition) > minDistance)
                 {
-                    // Far enough from last point
                     Vector2 forwardVector = (mouseWorldPosition - lastMouseWorldPosition).normalized;
 
                     lastMouseWorldPosition = mouseWorldPosition;
@@ -60,7 +56,6 @@ public class DrawMesh : MonoBehaviour
 
             if (Input.GetMouseButtonUp(0))
             {
-                // Mouse Up
                 MeshUtils.AddLinePoint(mesh, mouseWorldPosition, 0f);
             }
         }

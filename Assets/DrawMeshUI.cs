@@ -7,15 +7,19 @@ public class DrawMeshUI : MonoBehaviour
 {
     private void Awake()
     {
-        //transform.Find("Thickness1Btn").GetComponent<Button>().onClick.AddListener(() => { SetThickness(0.2f); });
-        //transform.Find("Thickness2Btn").GetComponent<Button>().onClick.AddListener(() => { SetThickness(0.6f); });
-        //transform.Find("Thickness3Btn").GetComponent<Button>().onClick.AddListener(() => { SetThickness(1.0f); });
-        //transform.Find("Thickness4Btn").GetComponent<Button>().onClick.AddListener(() => { SetThickness(2.0f); });
+        //Button color4Btn = GameObject.Find("Color4Btn").GetComponent<Button>();
+        //color4Btn.onClick.AddListener(() => { SetColor(GameManager.GetColorFromString("0077FF")); });
 
-        transform.Find("Color1Btn").GetComponent<Button>().onClick.AddListener(() => { SetColor(GameManager.GetColorFromString("000000")); });
-        //transform.Find("Color2Btn").GetComponent<Button>().onClick.AddListener(() => { SetColor(GameManager.GetColorFromString("FFFFFF")); });
-        //transform.Find("Color3Btn").GetComponent<Button>().onClick.AddListener(() => { SetColor(GameManager.GetColorFromString("22FF00")); });
-        //transform.Find("Color4Btn").GetComponent<Button>().onClick.AddListener(() => { SetColor(GameManager.GetColorFromString("0077FF")); });
+
+        GameObject.Find("Color1Btn").GetComponent<Button>().onClick.AddListener(() => { SetColor(GameManager.GetColorFromString("000000")); });
+        GameObject.Find("Color2Btn").GetComponent<Button>().onClick.AddListener(() => { SetColor(GameManager.GetColorFromString("FFFFFF")); });
+        GameObject.Find("Color3Btn").GetComponent<Button>().onClick.AddListener(() => { SetColor(GameManager.GetColorFromString("22FF00")); });
+        GameObject.Find("Color4Btn").GetComponent<Button>().onClick.AddListener(() => { SetColor(GameManager.GetColorFromString("0077FF")); });
+
+        GameObject.Find("Thickness1Btn").GetComponent<Button>().onClick.AddListener(() => { SetThickness(2f); });
+        GameObject.Find("Thickness2Btn").GetComponent<Button>().onClick.AddListener(() => { SetThickness(6f); });
+        GameObject.Find("Thickness3Btn").GetComponent<Button>().onClick.AddListener(() => { SetThickness(10f); });
+        GameObject.Find("Thickness4Btn").GetComponent<Button>().onClick.AddListener(() => { SetThickness(20f); });
     }
 
     private void SetThickness(float thickness)
