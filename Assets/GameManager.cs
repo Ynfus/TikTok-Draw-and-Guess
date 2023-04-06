@@ -7,7 +7,6 @@ using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
-    // Definicja mo¿liwych stanów gry
     public enum GameState
     {
         ChoosingWord,
@@ -18,16 +17,13 @@ public class GameManager : MonoBehaviour
         Results
     }
 
-    // Obecny stan gry
     private GameState currentGameState;
 
-    // Event wywo³ywany przy zmianie stanu gry
     public delegate void OnGameStateChange(GameState newState);
     public static event OnGameStateChange onGameStateChange;
 
     void Start()
     {
-        // Ustawienie pocz¹tkowego stanu gry
         currentGameState = GameState.ChoosingWord;
         if (onGameStateChange != null)
         {
@@ -37,10 +33,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        // Kod obs³uguj¹cy zmianê stanu gry (np. w zale¿noœci od inputu gracza)
-        // ...
 
-        // Wywo³anie eventu przy zmianie stanu gry
         //if (onGameStateChange != null && currentGameState != newGameState)
         //{
         //    currentGameState = newGameState;
@@ -77,7 +70,6 @@ public class GameManager : MonoBehaviour
         float alpha = 1f;
         if (color.Length >= 8)
         {
-            // Color string contains alpha
             alpha = Hex_to_Dec01(color.Substring(6, 2));
         }
         return new Color(red, green, blue, alpha);
@@ -92,17 +84,38 @@ public class GameManager : MonoBehaviour
     }
     public static bool IsPointerOverUI()
     {
-        if (EventSystem.current.IsPointerOverGameObject())
+
+        LayerMask ignoreLayer = LayerMask.NameToLayer("Canva");
+        PointerEventData pe = new PointerEventData(EventSystem.current);
+        pe.position = Input.mousePosition;
+        List<RaycastResult> hits = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pe, hits);
+
+        foreach (RaycastResult hit in hits)
         {
-            return true;
+            if (hit.gameObject.layer == ignoreLayer)
+            {
+                return false;
+            }
         }
-        else
-        {
-            PointerEventData pe = new PointerEventData(EventSystem.current);
-            pe.position = Input.mousePosition;
-            List<RaycastResult> hits = new List<RaycastResult>();
-            EventSystem.current.RaycastAll(pe, hits);
-            return hits.Count > 0;
-        }
+
+        return true;
+
+
+
+
+
+        //if (EventSystem.current.IsPointerOverGameObject())
+        //{
+        //    return true;
+        //}
+        //else
+        //{
+        //    PointerEventData pe = new PointerEventData(EventSystem.current);
+        //    pe.position = Input.mousePosition;
+        //    List<RaycastResult> hits = new List<RaycastResult>();
+        //    EventSystem.current.RaycastAll(pe, hits);
+        //    return hits.Count > 0;
+        //}
     }
 }
