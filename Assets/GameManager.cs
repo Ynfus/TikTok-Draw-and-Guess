@@ -16,19 +16,14 @@ public class GameManager : MonoBehaviour
         Failed,
         Results
     }
+    public static GameManager Instance { get; private set; }
 
     private GameState currentGameState;
-
-    public delegate void OnGameStateChange(GameState newState);
-    public static event OnGameStateChange onGameStateChange;
-
-    void Start()
+    public event EventHandler OnStateChanged;
+    private void Awake()
     {
-        currentGameState = GameState.ChoosingWord;
-        if (onGameStateChange != null)
-        {
-            onGameStateChange(currentGameState);
-        }
+        Instance = this;
+        currentGameState= GameState.ChoosingWord;
     }
 
     void Update()
@@ -117,5 +112,10 @@ public class GameManager : MonoBehaviour
         //    EventSystem.current.RaycastAll(pe, hits);
         //    return hits.Count > 0;
         //}
+    }
+    public bool IsChoosingWord()
+    {
+        return currentGameState == GameState.ChoosingWord;
+
     }
 }
