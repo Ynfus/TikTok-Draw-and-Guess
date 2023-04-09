@@ -118,4 +118,9 @@ public class GameManager : MonoBehaviour
         return currentGameState == GameState.ChoosingWord;
 
     }
+    public bool IsDrawing()
+    {
+        return currentGameState == GameState.Drawing;
+
+    }
 }

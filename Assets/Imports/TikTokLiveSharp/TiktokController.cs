@@ -47,26 +47,13 @@ public class TiktokController : MonoBehaviour
 
     void Client_OnCommentRecieved(object sender, WebcastChatMessage e)
     {
-        Debug.Log(e.User.Nickname + ": " + e.Comment);
-
         lock (_comments)
         {
             _comments.Enqueue(e.User.Nickname + ": " + e.Comment);
         }
-
-        if (!string.IsNullOrEmpty(_selectedWord))
+        if (GameManager.Instance.IsDrawing())
         {
-            string selectedWord = _selectedWord.ToLower();
-            string comment = e.Comment.ToLower();
-            if (selectedWord == comment)
-            {
-                string nickname = e.User.Nickname;
-                Debug.Log(nickname + " znalaz³(a) s³owo: " + selectedWord);
-
-                PlayerPrefs.SetString("SelectedWord", "");
-
-                _selectedWord = "";
-            }
+            LookForWord(e);
         }
     }
 
@@ -88,7 +75,24 @@ public class TiktokController : MonoBehaviour
     }
 
 
+    private void LookForWord(WebcastChatMessage e)
+    {
+        if (!string.IsNullOrEmpty(_selectedWord))
+        {
+            string selectedWord = _selectedWord.ToLower();
+            string comment = e.Comment.ToLower();
+            if (selectedWord == comment)
+            {
+                string nickname = e.User.Nickname;
+                Debug.Log(nickname + " znalaz³(a) s³owo: " + selectedWord);
 
+                PlayerPrefs.SetString("SelectedWord", "");
+
+                _selectedWord = "";
+            }
+        }
+
+    }
 
 
 
