@@ -29,28 +29,7 @@ public class MeshUtils : MonoBehaviour
         if (cachedQuaternionEulerArr == null) CacheQuaternionEuler();
         return cachedQuaternionEulerArr[rot];
     }
-
-
     private static Quaternion[] cachedQuaternionEulerXZArr;
-    private static void CacheQuaternionEulerXZ()
-    {
-        if (cachedQuaternionEulerXZArr != null) return;
-        cachedQuaternionEulerXZArr = new Quaternion[360];
-        for (int i = 0; i < 360; i++)
-        {
-            cachedQuaternionEulerXZArr[i] = Quaternion.Euler(0, i, 0);
-        }
-    }
-    private static Quaternion GetQuaternionEulerXZ(float rotFloat)
-    {
-        int rot = Mathf.RoundToInt(rotFloat);
-        rot = rot % 360;
-        if (rot < 0) rot += 360;
-
-        if (cachedQuaternionEulerXZArr == null) CacheQuaternionEulerXZ();
-        return cachedQuaternionEulerXZArr[rot];
-    }
-
 
 
     public static Mesh CreateEmptyMesh()
@@ -61,14 +40,6 @@ public class MeshUtils : MonoBehaviour
         mesh.triangles = new int[0];
         return mesh;
     }
-
-    public static void CreateEmptyMeshArrays(int quadCount, out Vector3[] vertices, out Vector2[] uvs, out int[] triangles)
-    {
-        vertices = new Vector3[4 * quadCount];
-        uvs = new Vector2[4 * quadCount];
-        triangles = new int[6 * quadCount];
-    }
-
     public static Mesh CreateMesh(Vector3 pos, float rot, Vector3 baseSize, Vector2 uv00, Vector2 uv11)
     {
         return AddToMesh(null, pos, rot, baseSize, uv00, uv11);
@@ -90,7 +61,6 @@ public class MeshUtils : MonoBehaviour
 
         return mesh;
     }
-
     public static Mesh AddToMesh(Mesh mesh, Vector3 pos, float rot, Vector3 baseSize, Vector2 uv00, Vector2 uv11)
     {
         if (mesh == null)
@@ -155,98 +125,6 @@ public class MeshUtils : MonoBehaviour
 
         return mesh;
     }
-
-    public static void AddToMeshArrays(Vector3[] vertices, Vector2[] uvs, int[] triangles, int index, Vector3 pos, float rot, Vector3 baseSize, Vector2 uv00, Vector2 uv11)
-    {
-
-        int vIndex = index * 4;
-        int vIndex0 = vIndex;
-        int vIndex1 = vIndex + 1;
-        int vIndex2 = vIndex + 2;
-        int vIndex3 = vIndex + 3;
-
-        baseSize *= .5f;
-
-        bool skewed = baseSize.x != baseSize.y;
-        if (skewed)
-        {
-            vertices[vIndex0] = pos + GetQuaternionEuler(rot) * new Vector3(-baseSize.x, baseSize.y);
-            vertices[vIndex1] = pos + GetQuaternionEuler(rot) * new Vector3(-baseSize.x, -baseSize.y);
-            vertices[vIndex2] = pos + GetQuaternionEuler(rot) * new Vector3(baseSize.x, -baseSize.y);
-            vertices[vIndex3] = pos + GetQuaternionEuler(rot) * baseSize;
-        }
-        else
-        {
-            vertices[vIndex0] = pos + GetQuaternionEuler(rot - 270) * baseSize;
-            vertices[vIndex1] = pos + GetQuaternionEuler(rot - 180) * baseSize;
-            vertices[vIndex2] = pos + GetQuaternionEuler(rot - 90) * baseSize;
-            vertices[vIndex3] = pos + GetQuaternionEuler(rot - 0) * baseSize;
-        }
-
-
-        uvs[vIndex0] = new Vector2(uv00.x, uv11.y);
-        uvs[vIndex1] = new Vector2(uv00.x, uv00.y);
-        uvs[vIndex2] = new Vector2(uv11.x, uv00.y);
-        uvs[vIndex3] = new Vector2(uv11.x, uv11.y);
-
-
-        int tIndex = index * 6;
-
-        triangles[tIndex + 0] = vIndex0;
-        triangles[tIndex + 1] = vIndex3;
-        triangles[tIndex + 2] = vIndex1;
-
-        triangles[tIndex + 3] = vIndex1;
-        triangles[tIndex + 4] = vIndex3;
-        triangles[tIndex + 5] = vIndex2;
-    }
-
-    //public static void AddToMeshArraysXZ(Vector3[] vertices, Vector2[] uvs, int[] triangles, int index, Vector3 pos, float rot, Vector3 baseSize, Vector2 uv00, Vector2 uv11)
-    //{
-
-    //    int vIndex = index * 4;
-    //    int vIndex0 = vIndex;
-    //    int vIndex1 = vIndex + 1;
-    //    int vIndex2 = vIndex + 2;
-    //    int vIndex3 = vIndex + 3;
-
-    //    baseSize *= .5f;
-
-    //    bool skewed = baseSize.x != baseSize.z;
-    //    if (skewed)
-    //    {
-    //        vertices[vIndex0] = pos + GetQuaternionEulerXZ(rot) * new Vector3(-baseSize.x, 0, baseSize.z);
-    //        vertices[vIndex1] = pos + GetQuaternionEulerXZ(rot) * new Vector3(-baseSize.x, 0, -baseSize.z);
-    //        vertices[vIndex2] = pos + GetQuaternionEulerXZ(rot) * new Vector3(baseSize.x, 0, -baseSize.z);
-    //        vertices[vIndex3] = pos + GetQuaternionEulerXZ(rot) * baseSize;
-    //    }
-    //    else
-    //    {
-    //        vertices[vIndex0] = pos + GetQuaternionEulerXZ(rot - 270) * baseSize;
-    //        vertices[vIndex1] = pos + GetQuaternionEulerXZ(rot - 180) * baseSize;
-    //        vertices[vIndex2] = pos + GetQuaternionEulerXZ(rot - 90) * baseSize;
-    //        vertices[vIndex3] = pos + GetQuaternionEulerXZ(rot - 0) * baseSize;
-    //    }
-
-    //    uvs[vIndex0] = new Vector2(uv00.x, uv11.y);
-    //    uvs[vIndex1] = new Vector2(uv00.x, uv00.y);
-    //    uvs[vIndex2] = new Vector2(uv11.x, uv00.y);
-    //    uvs[vIndex3] = new Vector2(uv11.x, uv11.y);
-
-
-    //    int tIndex = index * 6;
-
-    //    triangles[tIndex + 0] = vIndex0;
-    //    triangles[tIndex + 1] = vIndex3;
-    //    triangles[tIndex + 2] = vIndex1;
-
-    //    triangles[tIndex + 3] = vIndex1;
-    //    triangles[tIndex + 4] = vIndex3;
-    //    triangles[tIndex + 5] = vIndex2;
-    //}
-
-
-
     public static Mesh CreateLineMesh(Vector3 pointA, Vector3 pointB, float width)
     {
         return CreateLineMesh(pointA, pointB, normal2D, width);
@@ -324,14 +202,9 @@ public class MeshUtils : MonoBehaviour
         AddLinePoint(mesh, pointB, dirAToB, normal, width);
     }
 
-    public static void AddLinePointForward(Mesh mesh, Vector3 pointB, Vector3 pointBforward, float width)
-    {
-        AddLinePoint(mesh, pointB, pointBforward, normal2D, width);
-    }
-
     public static void AddLinePoint(Mesh mesh, Vector3 pointB, Vector3 pointBforward, Vector3 normal, float width)
     {
-        Vector3[] vertices = new Vector3[mesh.vertices.Length + 2]; 
+        Vector3[] vertices = new Vector3[mesh.vertices.Length + 2];
         Vector2[] uv = new Vector2[mesh.uv.Length + 2];
         int[] triangles = new int[mesh.triangles.Length + 6];
 
@@ -356,34 +229,23 @@ public class MeshUtils : MonoBehaviour
         float totalLengthUnits = 0f;
         Vector3 lastVertexPosition = vertices[0];
         for (int i = 0; i <= vIndex3; i += 2)
-        { 
+        {
             totalLengthUnits += Vector3.Distance(lastVertexPosition, vertices[i]);
             lastVertexPosition = vertices[i];
         }
 
-        // Update UVs based on Total Line Length
         float thisLengthUnits = 0f;
         lastVertexPosition = vertices[0];
         float lastUVy = 0f;
         for (int i = 0; i <= vIndex3; i += 2)
-        { 
+        {
             thisLengthUnits += Vector3.Distance(lastVertexPosition, vertices[i]);
             float thisUVy = thisLengthUnits / totalLengthUnits;
             uv[i + 0] = new Vector2(0, thisUVy);
             uv[i + 1] = new Vector2(1, thisUVy);
-            /*
-            uv[i + 0] = new Vector2(0, lastUVy);
-            uv[i + 1] = new Vector2(1, lastUVy);
-            uv[i + 2] = new Vector2(0, thisUVy);
-            uv[i + 3] = new Vector2(1, thisUVy);
-            */
-
             lastVertexPosition = vertices[i];
             lastUVy = thisUVy;
         }
-
-
-
         int tIndex = triangles.Length - 6;
 
         triangles[tIndex + 0] = vIndex0;
@@ -412,3 +274,104 @@ public class MeshUtils : MonoBehaviour
 
 
 }
+//public static void AddToMeshArraysXZ(Vector3[] vertices, Vector2[] uvs, int[] triangles, int index, Vector3 pos, float rot, Vector3 baseSize, Vector2 uv00, Vector2 uv11)
+//{
+
+//    int vIndex = index * 4;
+//    int vIndex0 = vIndex;
+//    int vIndex1 = vIndex + 1;
+//    int vIndex2 = vIndex + 2;
+//    int vIndex3 = vIndex + 3;
+
+//    baseSize *= .5f;
+
+//    bool skewed = baseSize.x != baseSize.z;
+//    if (skewed)
+//    {
+//        vertices[vIndex0] = pos + GetQuaternionEulerXZ(rot) * new Vector3(-baseSize.x, 0, baseSize.z);
+//        vertices[vIndex1] = pos + GetQuaternionEulerXZ(rot) * new Vector3(-baseSize.x, 0, -baseSize.z);
+//        vertices[vIndex2] = pos + GetQuaternionEulerXZ(rot) * new Vector3(baseSize.x, 0, -baseSize.z);
+//        vertices[vIndex3] = pos + GetQuaternionEulerXZ(rot) * baseSize;
+//    }
+//    else
+//    {
+//        vertices[vIndex0] = pos + GetQuaternionEulerXZ(rot - 270) * baseSize;
+//        vertices[vIndex1] = pos + GetQuaternionEulerXZ(rot - 180) * baseSize;
+//        vertices[vIndex2] = pos + GetQuaternionEulerXZ(rot - 90) * baseSize;
+//        vertices[vIndex3] = pos + GetQuaternionEulerXZ(rot - 0) * baseSize;
+//    }
+
+//    uvs[vIndex0] = new Vector2(uv00.x, uv11.y);
+//    uvs[vIndex1] = new Vector2(uv00.x, uv00.y);
+//    uvs[vIndex2] = new Vector2(uv11.x, uv00.y);
+//    uvs[vIndex3] = new Vector2(uv11.x, uv11.y);
+
+
+//    int tIndex = index * 6;
+
+//    triangles[tIndex + 0] = vIndex0;
+//    triangles[tIndex + 1] = vIndex3;
+//    triangles[tIndex + 2] = vIndex1;
+
+//    triangles[tIndex + 3] = vIndex1;
+//    triangles[tIndex + 4] = vIndex3;
+//    triangles[tIndex + 5] = vIndex2;
+//}
+
+//public static void AddLinePointForward(Mesh mesh, Vector3 pointB, Vector3 pointBforward, float width)
+//{
+//    AddLinePoint(mesh, pointB, pointBforward, normal2D, width);
+//}
+//public static void AddToMeshArrays(Vector3[] vertices, Vector2[] uvs, int[] triangles, int index, Vector3 pos, float rot, Vector3 baseSize, Vector2 uv00, Vector2 uv11)
+//{
+
+//    int vIndex = index * 4;
+//    int vIndex0 = vIndex;
+//    int vIndex1 = vIndex + 1;
+//    int vIndex2 = vIndex + 2;
+//    int vIndex3 = vIndex + 3;
+
+//    baseSize *= .5f;
+
+//    bool skewed = baseSize.x != baseSize.y;
+//    if (skewed)
+//    {
+//        vertices[vIndex0] = pos + GetQuaternionEuler(rot) * new Vector3(-baseSize.x, baseSize.y);
+//        vertices[vIndex1] = pos + GetQuaternionEuler(rot) * new Vector3(-baseSize.x, -baseSize.y);
+//        vertices[vIndex2] = pos + GetQuaternionEuler(rot) * new Vector3(baseSize.x, -baseSize.y);
+//        vertices[vIndex3] = pos + GetQuaternionEuler(rot) * baseSize;
+//    }
+//    else
+//    {
+//        vertices[vIndex0] = pos + GetQuaternionEuler(rot - 270) * baseSize;
+//        vertices[vIndex1] = pos + GetQuaternionEuler(rot - 180) * baseSize;
+//        vertices[vIndex2] = pos + GetQuaternionEuler(rot - 90) * baseSize;
+//        vertices[vIndex3] = pos + GetQuaternionEuler(rot - 0) * baseSize;
+//    }
+
+
+//    uvs[vIndex0] = new Vector2(uv00.x, uv11.y);
+//    uvs[vIndex1] = new Vector2(uv00.x, uv00.y);
+//    uvs[vIndex2] = new Vector2(uv11.x, uv00.y);
+//    uvs[vIndex3] = new Vector2(uv11.x, uv11.y);
+
+
+//    int tIndex = index * 6;
+
+//    triangles[tIndex + 0] = vIndex0;
+//    triangles[tIndex + 1] = vIndex3;
+//    triangles[tIndex + 2] = vIndex1;
+
+//    triangles[tIndex + 3] = vIndex1;
+//    triangles[tIndex + 4] = vIndex3;
+//    triangles[tIndex + 5] = vIndex2;
+//}
+
+//public static void CreateEmptyMeshArrays(int quadCount, out Vector3[] vertices, out Vector2[] uvs, out int[] triangles)
+//{
+//    vertices = new Vector3[4 * quadCount];
+//    uvs = new Vector2[4 * quadCount];
+//    triangles = new int[6 * quadCount];
+//}
+
+

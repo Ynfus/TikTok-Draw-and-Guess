@@ -27,7 +27,7 @@ public class DrawMesh : MonoBehaviour
 
     private void Update()
     {
-        if (!GameManager.IsPointerOverUI())
+        if (!GameManager.IsPointerOverUI()/*&& GameManager.Instance.IsDrawing()*/)
         {
             Vector3 mouseWorldPosition = GameManager.GetMouseWorldPosition();
             if (Input.GetMouseButtonDown(0))
@@ -43,7 +43,7 @@ public class DrawMesh : MonoBehaviour
 
             if (Input.GetMouseButton(0))
             {
-                float minDistance = .1f;
+                float minDistance = 10f;
                 if (Vector2.Distance(lastMouseWorldPosition, mouseWorldPosition) > minDistance)
                 {
                     Vector2 forwardVector = (mouseWorldPosition - lastMouseWorldPosition).normalized;
