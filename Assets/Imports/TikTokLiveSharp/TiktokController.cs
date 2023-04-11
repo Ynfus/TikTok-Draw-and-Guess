@@ -11,6 +11,7 @@ using TikTokLiveSharp.Models;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TiktokController : MonoBehaviour
 {
@@ -19,11 +20,16 @@ public class TiktokController : MonoBehaviour
     [SerializeField] private Scrollbar scrollbar;
     private TikTokLiveClient _client;
     private Queue<string> _comments = new Queue<string>();
-
+    private float drawingStartTime; 
+    private float maxPoints = 100f; 
+    private float timeLimit = 30f; 
+    private float basePoints = 50f; 
+    private float pointsPerSecond = 2f; 
     private string _selectedWord = "";
 
     void Start()
     {
+        drawingStartTime = Time.time;
         _client = new TikTokLiveClient(id);
 
         _client.OnCommentRecieved += Client_OnCommentRecieved;
@@ -81,13 +87,15 @@ public class TiktokController : MonoBehaviour
         {
             string selectedWord = _selectedWord.ToLower();
             string comment = e.Comment.ToLower();
-            if (selectedWord == comment)
+            if (selectedWord != comment)
             {
-                string nickname = e.User.Nickname;
-                Debug.Log(nickname + " znalaz³(a) s³owo: " + selectedWord);
+                float timeElapsed = Time.time - drawingStartTime;
+                float timeBonus = (timeElapsed <= timeLimit) ? pointsPerSecond * (timeLimit - timeElapsed) : 0f;
+                float totalPoints = basePoints + timeBonus;
+                Debug.Log("Odgad³eœ s³owo w " + timeElapsed + "s! Zdoby³eœ " + totalPoints + " punktów!");
+
 
                 PlayerPrefs.SetString("SelectedWord", "");
-
                 _selectedWord = "";
             }
         }
