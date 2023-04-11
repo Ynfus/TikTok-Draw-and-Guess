@@ -50,6 +50,10 @@ public class DrawMeshUI : MonoBehaviour
         GameObject.Find("Thickness2Btn").GetComponent<Button>().onClick.AddListener(() => { SetThickness(10f); });
         GameObject.Find("Thickness3Btn").GetComponent<Button>().onClick.AddListener(() => { SetThickness(20f); });
         GameObject.Find("Thickness4Btn").GetComponent<Button>().onClick.AddListener(() => { SetThickness(30f); });
+
+        GameObject.Find("BackButton").GetComponent<Button>().onClick.RemoveAllListeners();
+        GameObject.Find("BackButton").GetComponent<Button>().onClick.AddListener(() => { DrawMesh.Instance.UndoLastMeshObject(); });
+        GameObject.Find("DeleteCanva").GetComponent<Button>().onClick.AddListener(() => { DrawMesh.Instance.ClearCanva(); });
     }
 
     private void OnColorButtonClicked(Button clickedButton)

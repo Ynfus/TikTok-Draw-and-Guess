@@ -19,6 +19,7 @@ public class DrawMesh : MonoBehaviour
     private Vector3 lastMouseWorldPosition;
     private float lineThickness = 10f;
     private Color lineColor = Color.blue;
+    private List<GameObject> meshObjects = new List<GameObject>();
 
     private void Awake()
     {
@@ -35,6 +36,7 @@ public class DrawMesh : MonoBehaviour
                 CreateMeshObject();
                 mesh = MeshUtils.CreateMesh(mouseWorldPosition, mouseWorldPosition, mouseWorldPosition, mouseWorldPosition);
                 mesh.MarkDynamic();
+                meshObjects.Add(lastGameObject);
                 lastGameObject.GetComponent<MeshFilter>().mesh = mesh;
                 Material material = new Material(drawMeshMaterial);
                 material.color = lineColor;
@@ -58,6 +60,10 @@ public class DrawMesh : MonoBehaviour
             {
                 MeshUtils.AddLinePoint(mesh, mouseWorldPosition, 0f);
             }
+            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Z))
+            {
+                UndoLastMeshObject();
+            }
         }
     }
 
@@ -77,8 +83,26 @@ public class DrawMesh : MonoBehaviour
     {
         this.lineColor = lineColor;
     }
-
-
+    public void UndoLastMeshObject()
+    {
+        if (meshObjects.Count > 0)
+        {
+            GameObject lastMeshObject = meshObjects[meshObjects.Count - 1];
+            meshObjects.RemoveAt(meshObjects.Count - 1);
+            Destroy(lastMeshObject);
+        }
+    }
+    public void ClearCanva()
+    {
+        if (meshObjects.Count > 0)
+        {
+            foreach (var mesh in meshObjects)
+            {
+                Destroy(mesh);
+            }
+            meshObjects.Clear();
+        }
+    }
 
 
 
