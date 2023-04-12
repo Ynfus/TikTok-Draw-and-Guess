@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        currentGameState= GameState.ChoosingWord;
+        currentGameState= GameState.Drawing;
     }
 
     void Update()

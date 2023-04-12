@@ -12,24 +12,60 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class TiktokController : MonoBehaviour
 {
     public string id;
+    public static TiktokController Instance { get; private set; }
+
     public TextMeshProUGUI textMeshProUGUI;
+    [SerializeField] private InputField idInputField;
     [SerializeField] private Scrollbar scrollbar;
     private TikTokLiveClient _client;
     private Queue<string> _comments = new Queue<string>();
-    private float drawingStartTime; 
-    private float maxPoints = 100f; 
-    private float timeLimit = 30f; 
-    private float basePoints = 50f; 
-    private float pointsPerSecond = 2f; 
+    private float drawingStartTime;
+    private float maxTime = 240f;
+    private float maxPoints = 100; 
     private string _selectedWord = "";
+    public float timeElapsed;
 
     void Start()
     {
-        drawingStartTime = Time.time;
+        drawingStartTime = Time.timeSinceLevelLoad;
+        //_client = new TikTokLiveClient(id);
+
+        //_client.OnCommentRecieved += Client_OnCommentRecieved;
+        //try
+        //{
+        //    _client.Start();
+        //}
+        //catch (System.Exception e)
+        //{
+        //    Debug.LogException(e);
+        //}
+        PlayerPrefs.SetString("SelectedWord", "hi");
+        _selectedWord = PlayerPrefs.GetString("SelectedWord", "");
+    }
+    private void Awake()
+    {
+        Instance = this;
+    }
+    void OnDestroy()
+    {
+        if (_client != null)
+        {
+            _client.Stop();
+            _client.OnCommentRecieved -= Client_OnCommentRecieved;
+        }
+    }
+    public void OnSubmitId(string id)
+    {
+        if (_client != null)
+        {
+            _client.Stop();
+            _client.OnCommentRecieved -= Client_OnCommentRecieved;
+        }
         _client = new TikTokLiveClient(id);
 
         _client.OnCommentRecieved += Client_OnCommentRecieved;
@@ -41,16 +77,7 @@ public class TiktokController : MonoBehaviour
         {
             Debug.LogException(e);
         }
-        PlayerPrefs.SetString("SelectedWord", "hej");
-        _selectedWord = PlayerPrefs.GetString("SelectedWord", "");
     }
-
-    void OnDestroy()
-    {
-        _client.Stop();
-        _client.OnCommentRecieved -= Client_OnCommentRecieved;
-    }
-
     void Client_OnCommentRecieved(object sender, WebcastChatMessage e)
     {
         lock (_comments)
@@ -65,6 +92,7 @@ public class TiktokController : MonoBehaviour
 
     void Update()
     {
+         timeElapsed = Time.timeSinceLevelLoad - drawingStartTime;
         lock (_comments)
         {
             while (_comments.Count > 0)
@@ -84,26 +112,23 @@ public class TiktokController : MonoBehaviour
     private void LookForWord(WebcastChatMessage e)
     {
         if (!string.IsNullOrEmpty(_selectedWord))
-        {
+       {
             string selectedWord = _selectedWord.ToLower();
             string comment = e.Comment.ToLower();
-            if (selectedWord != comment)
+            if (comment.Contains("an"))
             {
-                float timeElapsed = Time.time - drawingStartTime;
-                float timeBonus = (timeElapsed <= timeLimit) ? pointsPerSecond * (timeLimit - timeElapsed) : 0f;
-                float totalPoints = basePoints + timeBonus;
-                Debug.Log("Odgad³eœ s³owo w " + timeElapsed + "s! Zdoby³eœ " + totalPoints + " punktów!");
 
+                float percentage = Mathf.Clamp01(timeElapsed / maxTime);
+                int points = Mathf.RoundToInt((1 - percentage) * maxPoints);
+                Debug.Log("Zdoby³eœ(aœ) " + points + " punktów za odgadniêcie s³owa.");
 
                 PlayerPrefs.SetString("SelectedWord", "");
+
                 _selectedWord = "";
             }
         }
 
     }
-
-
-
 
 
 
