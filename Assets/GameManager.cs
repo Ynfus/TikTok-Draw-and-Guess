@@ -4,37 +4,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
     public enum GameState
     {
+        EnterID,
         ChoosingWord,
         Drawing,
         //Guessing,
         Guessed,
         Failed,
-        Results
+        Success
     }
     public static GameManager Instance { get; private set; }
-
+    [SerializeField] GameObject changeStateChoosingWord;
+    [SerializeField] GameObject successFailText;
     private GameState currentGameState;
     public event EventHandler OnStateChanged;
     private void Awake()
     {
+
+
         Instance = this;
-        currentGameState= GameState.Drawing;
+        currentGameState = GameState.EnterID;
     }
 
     void Update()
     {
-
-        //if (onGameStateChange != null && currentGameState != newGameState)
-        //{
-        //    currentGameState = newGameState;
-        //    onGameStateChange(currentGameState);
-        //}
-
+        Debug.Log(currentGameState);
     }
     public static Vector3 GetMouseWorldPosition()
     {
@@ -122,5 +122,30 @@ public class GameManager : MonoBehaviour
     {
         return currentGameState == GameState.Drawing;
 
+    }
+    public void SetChoosingWordState()
+    { 
+        currentGameState= GameState.ChoosingWord;
+    }
+    public void SetDrawingState()
+    {
+        currentGameState = GameState.Drawing;
+    }
+    public void SetFailState()
+    {
+        currentGameState = GameState.Failed;
+        changeStateChoosingWord.SetActive(true);
+    }
+    public void SetSuccessState()
+    {
+        currentGameState = GameState.Success;
+        changeStateChoosingWord.SetActive(true);
+    }
+    public void SetChooseWordState()
+    {
+        currentGameState = GameState.ChoosingWord;
+        OnStateChanged?.Invoke(this, EventArgs.Empty);
+        changeStateChoosingWord.SetActive(false);
+        successFailText.SetActive(false);
     }
 }
