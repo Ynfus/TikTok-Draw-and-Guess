@@ -22,6 +22,7 @@ public class StartMenu : MonoBehaviour
         TiktokController.Instance.OnSubmitId(id);
         startView.SetActive(false);
         mainView.SetActive(true);
+        GameManager.Instance.SetChoosingWordState();
     }
 }
 
