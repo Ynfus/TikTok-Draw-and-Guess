@@ -97,11 +97,11 @@ public class GetWord : MonoBehaviour
     private void OnButtonClick(string buttonText)
     {
         Debug.Log("Button clicked: " + buttonText);
-
         button1.SetActive(false);
         button2.SetActive(false);
         button3.SetActive(false);
-        PlayerPrefs.SetString("SelectedWord", buttonText);
+        TiktokController.Instance.SetSelectedWord(buttonText);
+        GameManager.Instance.SetDrawingState();
     }
 
 }
