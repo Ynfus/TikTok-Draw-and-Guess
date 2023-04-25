@@ -15,11 +15,12 @@ public class DbConnect : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        SQLiteManager(conn);
+        CreateTable();
     }
     private void Start()
     {
-        SQLiteManager(conn);
-        CreateTable();
+
     }
     private void SQLiteManager(string connectionString)
     {
@@ -110,11 +111,11 @@ public class DbConnect : MonoBehaviour
     {
         _dbConnection.Close();
     }
-    //private void OnApplicationQuit()
-    //{
-    //    _dbCommand = _dbConnection.CreateCommand();
-    //    _dbCommand.CommandText = "DROP TABLE IF EXISTS session";
-    //    _dbCommand.ExecuteNonQuery();
-    //    CloseConnection();
-    //}
+    private void OnApplicationQuit()
+    {
+        _dbCommand = _dbConnection.CreateCommand();
+        _dbCommand.CommandText = "DROP TABLE IF EXISTS session";
+        _dbCommand.ExecuteNonQuery();
+        CloseConnection();
+    }
 }

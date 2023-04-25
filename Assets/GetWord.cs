@@ -24,7 +24,6 @@ public class GetWord : MonoBehaviour
 
 
     
-    private string DataBaseName = "DrawAndGuess";
 
 
     private void Start()
@@ -48,7 +47,7 @@ public class GetWord : MonoBehaviour
 
     private void SetRandomWords()
     {
-        List<string> words = GetRandomWords();
+        List<string> words = DbConnect.Instance.GetRandomWords();
         button1.SetActive(true);
         button1Text.gameObject.SetActive(true);
         button2.SetActive(true);
@@ -62,38 +61,7 @@ public class GetWord : MonoBehaviour
         button2.GetComponent<Button>().onClick.AddListener(() => OnButtonClick(button2Text.text));
         button3.GetComponent<Button>().onClick.AddListener(() => OnButtonClick(button3Text.text));
     }
-    public List<string> GetRandomWords()
-    {
-        string conn = "URI=file:Assets/Imports/StreamingAssets/DrawAndGuess.db";
 
-        IDbCommand dbcmd;
-        IDbConnection dbcon;
-        IDataReader reader;
-
-        dbcon = new SqliteConnection(conn);
-        dbcon.Open();
-        dbcmd = dbcon.CreateCommand();
-        string SqlQuery = "SELECT * FROM Words ORDER BY RANDOM() LIMIT 3; ";
-        dbcmd.CommandText = SqlQuery;
-        reader = dbcmd.ExecuteReader();
-        List<string> words = new List<string>();
-        while (reader.Read())
-        {
-            Debug.Log(reader.GetInt32(0));
-            words.Add(reader.GetString(1));
-        }
-        reader.Close();
-        reader = null;
-        dbcmd.Dispose();
-        dbcmd = null;
-        dbcon.Close();
-        dbcon = null;
-
-        return words;
-
-
-
-    }
     private void OnButtonClick(string buttonText)
     {
         Debug.Log("Button clicked: " + buttonText);
