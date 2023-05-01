@@ -17,13 +17,15 @@ public class GameManager : MonoBehaviour
         //Guessing,
         Guessed,
         Failed,
-        Success
+        Success,
     }
     public static GameManager Instance { get; private set; }
     [SerializeField] GameObject changeStateChoosingWord;
     [SerializeField] GameObject successFailText;
     private GameState currentGameState;
     public event EventHandler OnStateChanged;
+
+
     private void Awake()
     {
 
@@ -118,6 +120,11 @@ public class GameManager : MonoBehaviour
         return currentGameState == GameState.ChoosingWord;
 
     }
+    public bool IsSucced()
+    {
+        return currentGameState == GameState.Success;
+
+    }
     public bool IsDrawing()
     {
         return currentGameState == GameState.Drawing;
@@ -138,8 +145,22 @@ public class GameManager : MonoBehaviour
     }
     public void SetSuccessState()
     {
+        Debug.Log("asdasd1"+currentGameState);
+        //changeStateChoosingWord.SetActive(true);
         currentGameState = GameState.Success;
+        Debug.Log($"asdasd2 {currentGameState}");
+        //PlayerPrefs.SetString("SelectedWord", "");
         changeStateChoosingWord.SetActive(true);
+        OnStateChanged?.Invoke(this, EventArgs.Empty);
+
+
+
+    }
+    private void O()
+    {
+        changeStateChoosingWord.SetActive(true);
+
+
     }
     public void SetChooseWordState()
     {
