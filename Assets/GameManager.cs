@@ -150,8 +150,9 @@ public class GameManager : MonoBehaviour
         currentGameState = GameState.Success;
         Debug.Log($"asdasd2 {currentGameState}");
         //PlayerPrefs.SetString("SelectedWord", "");
-        changeStateChoosingWord.SetActive(true);
         OnStateChanged?.Invoke(this, EventArgs.Empty);
+        changeStateChoosingWord.SetActive(true);
+
 
 
 
