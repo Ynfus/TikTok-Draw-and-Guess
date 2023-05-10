@@ -28,7 +28,7 @@ public class DrawMesh : MonoBehaviour
 
     private void Update()
     {
-        if (!GameManager.IsPointerOverUI()/*&& GameManager.Instance.IsDrawing()*/)
+        if (!GameManager.IsPointerOverUI()&& GameManager.Instance.IsDrawing())
         {
             Vector3 mouseWorldPosition = GameManager.GetMouseWorldPosition();
             if (Input.GetMouseButtonDown(0))

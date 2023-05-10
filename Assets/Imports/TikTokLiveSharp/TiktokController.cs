@@ -30,7 +30,7 @@ public class TiktokController : MonoBehaviour
     private TikTokLiveClient _client;
     private Queue<string> _comments = new Queue<string>();
     private float drawingStartTime;
-    private float maxTime = 200f;
+    private float maxTime = 20f;
     private float maxPoints = 100;
     private string _selectedWord;
     public float timeElapsed;
@@ -101,7 +101,8 @@ public class TiktokController : MonoBehaviour
             if (timeElapsed > maxTime)
             {
                 successFailText.text = "Fail";
-                GameManager.Instance.SetSuccessState();
+                DbConnect.Instance.UpsertRanking("1651", 11);
+                GameManager.Instance.SetFailState();
             }
         }
 

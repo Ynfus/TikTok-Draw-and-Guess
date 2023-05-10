@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -14,8 +15,6 @@ public class GameManager : MonoBehaviour
         EnterID,
         ChoosingWord,
         Drawing,
-        //Guessing,
-        Guessed,
         Failed,
         Success,
     }
@@ -34,9 +33,9 @@ public class GameManager : MonoBehaviour
         currentGameState = GameState.EnterID;
     }
 
+
     void Update()
     {
-        Debug.Log(currentGameState);
     }
     public static Vector3 GetMouseWorldPosition()
     {
@@ -140,29 +139,24 @@ public class GameManager : MonoBehaviour
     }
     public void SetFailState()
     {
+        DrawMesh.Instance.ClearCanva();
         currentGameState = GameState.Failed;
         changeStateChoosingWord.SetActive(true);
+        OnStateChanged?.Invoke(this, EventArgs.Empty);
+
     }
     public void SetSuccessState()
     {
-        Debug.Log("asdasd1"+currentGameState);
+        Debug.Log("asdasd1" + currentGameState);
         //changeStateChoosingWord.SetActive(true);
         currentGameState = GameState.Success;
         Debug.Log($"asdasd2 {currentGameState}");
         //PlayerPrefs.SetString("SelectedWord", "");
+        //DrawMesh.Instance.ClearCanva();
         OnStateChanged?.Invoke(this, EventArgs.Empty);
-        changeStateChoosingWord.SetActive(true);
-
-
-
 
     }
-    private void O()
-    {
-        changeStateChoosingWord.SetActive(true);
 
-
-    }
     public void SetChooseWordState()
     {
         currentGameState = GameState.ChoosingWord;

@@ -22,7 +22,7 @@ public class Leadboard : MonoBehaviour
 
     private void Leadboard_OnStateChanged(object sender, System.EventArgs e)
     {
-        if (gameManager.IsSucced())
+        if (!gameManager.IsSucced())
         {
             UpdateRanking();
         }
