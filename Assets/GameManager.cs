@@ -136,6 +136,7 @@ public class GameManager : MonoBehaviour
     public void SetDrawingState()
     {
         currentGameState = GameState.Drawing;
+        TiktokController.Instance.SetLooking();
     }
     public void SetFailState()
     {
@@ -147,14 +148,14 @@ public class GameManager : MonoBehaviour
     }
     public void SetSuccessState()
     {
+
         Debug.Log("asdasd1" + currentGameState);
         //changeStateChoosingWord.SetActive(true);
         currentGameState = GameState.Success;
         Debug.Log($"asdasd2 {currentGameState}");
         //PlayerPrefs.SetString("SelectedWord", "");
-        //DrawMesh.Instance.ClearCanva();
         OnStateChanged?.Invoke(this, EventArgs.Empty);
-
+        DrawMesh.Instance.ClearCanva();
     }
 
     public void SetChooseWordState()

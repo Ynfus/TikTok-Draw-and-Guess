@@ -30,10 +30,11 @@ public class TiktokController : MonoBehaviour
     private TikTokLiveClient _client;
     private Queue<string> _comments = new Queue<string>();
     private float drawingStartTime;
-    private float maxTime = 20f;
+    private float maxTime = 200f;
     private float maxPoints = 100;
     private string _selectedWord;
     public float timeElapsed;
+    private bool isLooking = true;
 
     public void SetSelectedWord(string word)
     {
@@ -78,9 +79,9 @@ public class TiktokController : MonoBehaviour
         Debug.Log("OnCommentRecived");
         _comments.Enqueue(e.User.Nickname + ": " + e.Comment);
 
-        if (GameManager.Instance.IsDrawing())
+        if (GameManager.Instance.IsDrawing()&&isLooking)
         {
-            LookForWord(e);
+            LookForWord(e, GameManager.Instance);
         }
     }
 
@@ -114,14 +115,15 @@ public class TiktokController : MonoBehaviour
     }
 
 
-    private void LookForWord(WebcastChatMessage e)
+    private void LookForWord(WebcastChatMessage e, GameManager gameManager)
     {
         if (!string.IsNullOrEmpty(_selectedWord) && timeElapsed < maxTime)
         {
             string selectedWord = _selectedWord.ToLower();
             string comment = e.Comment.ToLower();
-            if (comment.Contains("an"))
+            if(comment.Contains("an")&& isLooking)
             {
+                isLooking = false;
                 float percentage = Mathf.Clamp01(timeElapsed / maxTime);
                 int points = Mathf.RoundToInt((1 - percentage) * maxPoints);
                 Debug.Log("Zdoby³eœ(aœ) " + points + " punktów za odgadniêcie s³owa.");
@@ -130,7 +132,7 @@ public class TiktokController : MonoBehaviour
                 DbConnect.Instance.UpsertRanking(e.User.Nickname, points);
                 //_selectedWord = "";
                 //successFailText.text = "Sukces";
-                GameManager.Instance.SetSuccessState();
+                gameManager.SetSuccessState();
                 //Debug.Log($"asdasd {GameManager.Instance.IsDrawing()}");
                 //OnGuessed?.Invoke(this, e);
 
@@ -140,6 +142,7 @@ public class TiktokController : MonoBehaviour
         }
 
     }
+
     //public void OnGuessed1(object sender, WebcastChatMessage e)
     //{
     //    float percentage = Mathf.Clamp01(timeElapsed / maxTime);
@@ -152,7 +155,10 @@ public class TiktokController : MonoBehaviour
     //    successFailText.text = "Sukces";
     //    GameManager.Instance.SetSuccessState();
     //}
-
+    public void SetLooking()
+    {
+        isLooking=true;
+    }
 
 
 
