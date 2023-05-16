@@ -105,6 +105,11 @@ public class TiktokController : MonoBehaviour
                 DbConnect.Instance.UpsertRanking("1651", 11);
                 GameManager.Instance.SetFailState();
             }
+            if (!isLooking)
+s            {
+                GameManager.Instance.SetSuccessState();
+                isLooking= true;
+            }
         }
 
 
@@ -132,7 +137,7 @@ public class TiktokController : MonoBehaviour
                 DbConnect.Instance.UpsertRanking(e.User.Nickname, points);
                 //_selectedWord = "";
                 //successFailText.text = "Sukces";
-                gameManager.SetSuccessState();
+                isLooking = false;
                 //Debug.Log($"asdasd {GameManager.Instance.IsDrawing()}");
                 //OnGuessed?.Invoke(this, e);
 

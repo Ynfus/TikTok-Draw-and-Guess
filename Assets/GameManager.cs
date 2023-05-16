@@ -150,10 +150,10 @@ public class GameManager : MonoBehaviour
     {
 
         Debug.Log("asdasd1" + currentGameState);
-        //changeStateChoosingWord.SetActive(true);
+        changeStateChoosingWord.SetActive(true);
         currentGameState = GameState.Success;
         Debug.Log($"asdasd2 {currentGameState}");
-        //PlayerPrefs.SetString("SelectedWord", "");
+        PlayerPrefs.SetString("SelectedWord", "");
         OnStateChanged?.Invoke(this, EventArgs.Empty);
         DrawMesh.Instance.ClearCanva();
     }
