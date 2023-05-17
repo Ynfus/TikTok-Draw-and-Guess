@@ -106,7 +106,7 @@ public class TiktokController : MonoBehaviour
                 GameManager.Instance.SetFailState();
             }
             if (!isLooking)
-s            {
+            {
                 GameManager.Instance.SetSuccessState();
                 isLooking= true;
             }

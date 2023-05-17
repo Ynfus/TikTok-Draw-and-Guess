@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     [SerializeField] GameObject changeStateChoosingWord;
     [SerializeField] GameObject successFailText;
+    [SerializeField]  TextMeshProUGUI selectedWordText;
     private GameState currentGameState;
     public event EventHandler OnStateChanged;
 
@@ -144,6 +146,8 @@ public class GameManager : MonoBehaviour
         currentGameState = GameState.Failed;
         changeStateChoosingWord.SetActive(true);
         OnStateChanged?.Invoke(this, EventArgs.Empty);
+        selectedWordText.text = "";
+
 
     }
     public void SetSuccessState()
@@ -156,6 +160,8 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetString("SelectedWord", "");
         OnStateChanged?.Invoke(this, EventArgs.Empty);
         DrawMesh.Instance.ClearCanva();
+        selectedWordText.text = "";
+
     }
 
     public void SetChooseWordState()
