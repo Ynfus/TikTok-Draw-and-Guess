@@ -15,17 +15,20 @@ public class GetWord : MonoBehaviour
     [SerializeField] private GameObject button1;
     [SerializeField] private GameObject button2;
     [SerializeField] private GameObject button3;
+    [SerializeField] private GameObject button4;
     [SerializeField] private GameObject refreshButton;
 
     [SerializeField] private TextMeshProUGUI button1Text;
     [SerializeField] private TextMeshProUGUI button2Text;
-    [SerializeField] private TextMeshProUGUI button3Text;
+    [SerializeField] private TextMeshProUGUI button3Text; 
     [SerializeField] private TextMeshProUGUI selectedWordText;
 
     private GameManager gameManager;
 
+    [SerializeField] private TMP_InputField userInputField;
 
-    
+
+
 
 
     private void Start()
@@ -45,7 +48,12 @@ public class GetWord : MonoBehaviour
 
     private void SetRandomWords()
     {
+
+        button4.SetActive(true);
+
+
         List<string> words = DbConnect.Instance.GetRandomWords();
+        userInputField.gameObject.SetActive(true);
         refreshButton.SetActive(true);
         button1.SetActive(true);
         button1Text.gameObject.SetActive(true);
@@ -61,14 +69,22 @@ public class GetWord : MonoBehaviour
         button3.GetComponent<Button>().onClick.AddListener(() => OnButtonClick(button3Text.text));
     }
 
+    public void SetListener()
+    {
+        string userText = userInputField.text;
+        OnButtonClick(userText);
+    }
     private void OnButtonClick(string buttonText)
     {
         Debug.Log("Button clicked: " + buttonText);
         selectedWordText.text = buttonText;
+        userInputField.text = "";
         refreshButton.SetActive(false);
         button1.SetActive(false);
         button2.SetActive(false);
         button3.SetActive(false);
+        button4.SetActive(false);
+        userInputField.gameObject.SetActive(false);
         TiktokController.Instance.SetSelectedWord(buttonText);
         GameManager.Instance.SetDrawingState();
     }
