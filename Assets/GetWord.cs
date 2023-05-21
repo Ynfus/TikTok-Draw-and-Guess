@@ -67,12 +67,15 @@ public class GetWord : MonoBehaviour
         button1.GetComponent<Button>().onClick.AddListener(() => OnButtonClick(button1Text.text));
         button2.GetComponent<Button>().onClick.AddListener(() => OnButtonClick(button2Text.text));
         button3.GetComponent<Button>().onClick.AddListener(() => OnButtonClick(button3Text.text));
+
     }
 
     public void SetListener()
     {
+
         string userText = userInputField.text;
         OnButtonClick(userText);
+
     }
     private void OnButtonClick(string buttonText)
     {

@@ -16,6 +16,7 @@ using System;
 using UnityEngine.UIElements;
 using Microsoft.Unity.VisualStudio.Editor;
 using Image = UnityEngine.UIElements.Image;
+using System.Text;
 
 public class TiktokController : MonoBehaviour
 {
@@ -35,6 +36,8 @@ public class TiktokController : MonoBehaviour
     private string _selectedWord;
     public float timeElapsed;
     private bool isLooking = true;
+    private List<string> chatMessages = new List<string>();
+    public int maxMessages = 100;
 
     public void SetSelectedWord(string word)
     {
@@ -84,7 +87,42 @@ public class TiktokController : MonoBehaviour
             LookForWord(e, GameManager.Instance);
         }
     }
+    //public void AddMessage(string message)
+    //{
+    //    chatMessages.Add(message);
 
+    //    if (chatMessages.Count > maxMessages)
+    //    {
+    //        chatMessages.RemoveAt(0);
+    //    }
+
+    //    UpdateChatText();
+    //}
+
+    //private void UpdateChatText()
+    //{
+    //    textMeshProUGUI.text = string.Join("\n", chatMessages);
+    //}
+    public TextMeshProUGUI textMeshPro;
+    private StringBuilder chatText = new StringBuilder();
+
+    public void AddMessage(string message)
+    {
+        chatText.AppendLine(message);
+
+        if (chatText.Length > maxMessages)
+        {
+            int excessLength = chatText.Length - maxMessages;
+            chatText.Remove(0, excessLength);
+        }
+
+        UpdateChatText();
+    }
+
+    private void UpdateChatText()
+    {
+        textMeshPro.text = chatText.ToString();
+    }
     void Update()
     {
 
@@ -92,7 +130,8 @@ public class TiktokController : MonoBehaviour
         while (_comments.Count > 0)
         {
             var comment = _comments.Dequeue();
-            textMeshProUGUI.text += "\n" + comment;
+            AddMessage(comment);
+            //textMeshProUGUI.text += "\n" + comment;
             ScrollToBottom();
         }
 
@@ -116,6 +155,7 @@ public class TiktokController : MonoBehaviour
     }
     void ScrollToBottom()
     {
+        //Canvas.ForceUpdateCanvases();
         scrollbar.value = 0f;
     }
 
