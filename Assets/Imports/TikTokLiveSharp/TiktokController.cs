@@ -23,21 +23,39 @@ public class TiktokController : MonoBehaviour
     public string id;
     public static TiktokController Instance { get; private set; }
 
+    
     public TextMeshProUGUI textMeshProUGUI;
+    
     [SerializeField] private InputField idInputField;
-    [SerializeField] TextMeshProUGUI successFailText;
+   
     [SerializeField] private Scrollbar scrollbar;
+   
+    [SerializeField] GameObject winFailInfo;
+
+    [SerializeField] TextMeshProUGUI nicknameInfo;
+    [SerializeField] TextMeshProUGUI wordToGuess;
+    [SerializeField] TextMeshProUGUI stateInfo;
+    [SerializeField] TextMeshProUGUI successFailText;
+
+    [SerializeField] Image circleImage;
     public event EventHandler<WebcastChatMessage> OnGuessed;
     private TikTokLiveClient _client;
     private Queue<string> _comments = new Queue<string>();
     private float drawingStartTime;
-    private float maxTime = 200f;
+    private float maxTime;
     private float maxPoints = 100;
+    private float timeElapsed;
+
     private string _selectedWord;
-    public float timeElapsed;
+
     private bool isLooking = true;
-    private List<string> chatMessages = new List<string>();
-    public int maxMessages = 100;
+
+    private int maxMessages = 2000;
+    
+    //private List<string> chatMessages = new List<string>();
+
+
+
 
     public void SetSelectedWord(string word)
     {
@@ -45,6 +63,8 @@ public class TiktokController : MonoBehaviour
         drawingStartTime = Time.timeSinceLevelLoad;
         PlayerPrefs.SetString("SelectedWord", word);
         _selectedWord = word;
+        maxTime = PlayerPrefs.GetInt("RoundTime", 60);
+        winFailInfo.SetActive(false);
     }
     private void Awake()
     {
@@ -134,20 +154,24 @@ public class TiktokController : MonoBehaviour
             //textMeshProUGUI.text += "\n" + comment;
             ScrollToBottom();
         }
-
         if (GameManager.Instance.IsDrawing())
         {
+
             timeElapsed = Time.timeSinceLevelLoad - drawingStartTime;
             if (timeElapsed > maxTime)
             {
                 successFailText.text = "Fail";
-                DbConnect.Instance.UpsertRanking("1651", 11);
                 GameManager.Instance.SetFailState();
+                winFailInfo.SetActive(true);
+                stateInfo.text = "Fail!";
+                wordToGuess.text = _selectedWord.ToUpper();
+
             }
             if (!isLooking)
             {
                 GameManager.Instance.SetSuccessState();
-                isLooking= true;
+                winFailInfo.SetActive(true);
+                isLooking = true;
             }
         }
 
@@ -175,6 +199,9 @@ public class TiktokController : MonoBehaviour
 
 
                 DbConnect.Instance.UpsertRanking(e.User.Nickname, points);
+                stateInfo.text = "Success!";
+                wordToGuess.text = _selectedWord.ToUpper();
+                nicknameInfo.text = e.User.Nickname;
                 //_selectedWord = "";
                 //successFailText.text = "Sukces";
                 isLooking = false;
