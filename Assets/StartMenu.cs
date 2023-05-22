@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class StartMenu : MonoBehaviour
 {
     [SerializeField] TMP_InputField inputField;
+
     [SerializeField] GameObject startView;
     [SerializeField] GameObject mainView;
 
@@ -18,7 +19,6 @@ public class StartMenu : MonoBehaviour
             Debug.Log("ID cannot be empty!");
             return;
         }
-
         TiktokController.Instance.OnSubmitId(id);
         startView.SetActive(false);
         mainView.SetActive(true);

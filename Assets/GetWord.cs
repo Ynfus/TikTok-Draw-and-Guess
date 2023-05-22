@@ -12,25 +12,20 @@ using UnityEngine.UI;
 
 public class GetWord : MonoBehaviour
 {
-    [SerializeField] private GameObject button1;
-    [SerializeField] private GameObject button2;
-    [SerializeField] private GameObject button3;
-    [SerializeField] private GameObject button4;
+    [SerializeField] private GameObject word1;
+    [SerializeField] private GameObject word2;
+    [SerializeField] private GameObject word3;
+    [SerializeField] private GameObject inputFieldWord;
     [SerializeField] private GameObject refreshButton;
 
-    [SerializeField] private TextMeshProUGUI button1Text;
-    [SerializeField] private TextMeshProUGUI button2Text;
-    [SerializeField] private TextMeshProUGUI button3Text; 
+    [SerializeField] private TextMeshProUGUI word1Text;
+    [SerializeField] private TextMeshProUGUI word2Text;
+    [SerializeField] private TextMeshProUGUI word3Text; 
     [SerializeField] private TextMeshProUGUI selectedWordText;
 
     private GameManager gameManager;
 
     [SerializeField] private TMP_InputField userInputField;
-
-
-
-
-
     private void Start()
     {
         gameManager = GameManager.Instance;
@@ -48,34 +43,29 @@ public class GetWord : MonoBehaviour
 
     private void SetRandomWords()
     {
-
-        button4.SetActive(true);
-
-
         List<string> words = DbConnect.Instance.GetRandomWords();
-        userInputField.gameObject.SetActive(true);
         refreshButton.SetActive(true);
-        button1.SetActive(true);
-        button1Text.gameObject.SetActive(true);
-        button2.SetActive(true);
-        button2Text.gameObject.SetActive(true);
-        button3.SetActive(true);
-        button3Text.gameObject.SetActive(true);
-        button1Text.text = words[0];
-        button2Text.text = words[1];
-        button3Text.text = words[2];
-        button1.GetComponent<Button>().onClick.AddListener(() => OnButtonClick(button1Text.text));
-        button2.GetComponent<Button>().onClick.AddListener(() => OnButtonClick(button2Text.text));
-        button3.GetComponent<Button>().onClick.AddListener(() => OnButtonClick(button3Text.text));
+        word1.SetActive(true);
+        word2.SetActive(true);
+        word3.SetActive(true);
+        inputFieldWord.SetActive(true);
+        userInputField.gameObject.SetActive(true);
+        word1Text.gameObject.SetActive(true);
+        word2Text.gameObject.SetActive(true);
+        word3Text.gameObject.SetActive(true);
+        word1Text.text = words[0];
+        word2Text.text = words[1];
+        word3Text.text = words[2];
+        word1.GetComponent<Button>().onClick.AddListener(() => OnButtonClick(word1Text.text));
+        word2.GetComponent<Button>().onClick.AddListener(() => OnButtonClick(word2Text.text));
+        word3.GetComponent<Button>().onClick.AddListener(() => OnButtonClick(word3Text.text));
 
     }
 
     public void SetListener()
     {
-
         string userText = userInputField.text;
         OnButtonClick(userText);
-
     }
     private void OnButtonClick(string buttonText)
     {
@@ -83,10 +73,10 @@ public class GetWord : MonoBehaviour
         selectedWordText.text = buttonText;
         userInputField.text = "";
         refreshButton.SetActive(false);
-        button1.SetActive(false);
-        button2.SetActive(false);
-        button3.SetActive(false);
-        button4.SetActive(false);
+        word1.SetActive(false);
+        word2.SetActive(false);
+        word3.SetActive(false);
+        inputFieldWord.SetActive(false);
         userInputField.gameObject.SetActive(false);
         TiktokController.Instance.SetSelectedWord(buttonText);
         GameManager.Instance.SetDrawingState();

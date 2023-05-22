@@ -16,8 +16,6 @@ public class TimeHandler : MonoBehaviour
         button60.GetComponent<Button>().onClick.AddListener(() => SetTime(60));
         button90.GetComponent<Button>().onClick.AddListener(() => SetTime(90));
         button120.GetComponent<Button>().onClick.AddListener(() => SetTime(120));
-
-
     }
 
     private void SetTime(int time)

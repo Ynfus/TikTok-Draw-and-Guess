@@ -2297,8 +2297,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 024a58283391b3f48a742b5ea9f18c35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: ladymargo93
-  textMeshProUGUI: {fileID: 0}
   idInputField: {fileID: 0}
   scrollbar: {fileID: 1379217057}
   winFailInfo: {fileID: 1701672199}
@@ -2306,7 +2304,7 @@ MonoBehaviour:
   wordToGuess: {fileID: 1447010834}
   stateInfo: {fileID: 1549763180}
   successFailText: {fileID: 919871208}
-  textMeshPro: {fileID: 1852783640}
+  chatTextUI: {fileID: 0}
 --- !u!1 &654123934
 GameObject:
   m_ObjectHideFlags: 0

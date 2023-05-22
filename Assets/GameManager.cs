@@ -20,25 +20,23 @@ public class GameManager : MonoBehaviour
         Success,
     }
     public static GameManager Instance { get; private set; }
+
     [SerializeField] GameObject changeStateChoosingWord;
     [SerializeField] GameObject successFailText;
-    [SerializeField]  TextMeshProUGUI selectedWordText;
+
+    [SerializeField] TextMeshProUGUI selectedWordText;
+
     private GameState currentGameState;
+
     public event EventHandler OnStateChanged;
 
 
     private void Awake()
     {
-
-
         Instance = this;
         currentGameState = GameState.EnterID;
     }
 
-
-    void Update()
-    {
-    }
     public static Vector3 GetMouseWorldPosition()
     {
         Vector3 vec = GetMouseWorldPositionWithZ(Input.mousePosition, Camera.main);
@@ -58,7 +56,7 @@ public class GameManager : MonoBehaviour
     {
         Vector3 mouseWorldPosition = GetMouseWorldPosition();
         return (mouseWorldPosition - fromPosition).normalized;
-    
+
     }
     public static Color GetColorFromString(string color)
     {
@@ -96,25 +94,7 @@ public class GameManager : MonoBehaviour
                 return false;
             }
         }
-
         return true;
-
-
-
-
-
-        //if (EventSystem.current.IsPointerOverGameObject())
-        //{
-        //    return true;
-        //}
-        //else
-        //{
-        //    PointerEventData pe = new PointerEventData(EventSystem.current);
-        //    pe.position = Input.mousePosition;
-        //    List<RaycastResult> hits = new List<RaycastResult>();
-        //    EventSystem.current.RaycastAll(pe, hits);
-        //    return hits.Count > 0;
-        //}
     }
     public bool IsChoosingWord()
     {
@@ -132,8 +112,8 @@ public class GameManager : MonoBehaviour
 
     }
     public void SetChoosingWordState()
-    { 
-        currentGameState= GameState.ChoosingWord;
+    {
+        currentGameState = GameState.ChoosingWord;
     }
     public void SetDrawingState()
     {
@@ -147,8 +127,6 @@ public class GameManager : MonoBehaviour
         changeStateChoosingWord.SetActive(true);
         OnStateChanged?.Invoke(this, EventArgs.Empty);
         selectedWordText.text = "";
-
-
     }
     public void SetSuccessState()
     {
@@ -163,7 +141,6 @@ public class GameManager : MonoBehaviour
         selectedWordText.text = "";
 
     }
-
     public void SetChooseWordState()
     {
         currentGameState = GameState.ChoosingWord;
@@ -171,5 +148,4 @@ public class GameManager : MonoBehaviour
         changeStateChoosingWord.SetActive(false);
         successFailText.SetActive(false);
     }
-
 }

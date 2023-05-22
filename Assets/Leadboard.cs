@@ -12,6 +12,7 @@ public class Leadboard : MonoBehaviour
     [SerializeField] TextMeshProUGUI firstPlaceSession;
     [SerializeField] TextMeshProUGUI secondPlaceSession;
     [SerializeField] TextMeshProUGUI thridPlaceSession;
+
     private GameManager gameManager;
     private void Start()
     {
@@ -26,15 +27,12 @@ public class Leadboard : MonoBehaviour
         {
             UpdateRanking();
         }
-
     }
 
     void UpdateRanking()
     {
-        // Pobierz wyniki globalne
         DataTable globalRanking = DbConnect.Instance.GetGlobalRanking();
 
-        // Przypisz wyniki do pól tekstowych
         if (globalRanking.Rows.Count > 0)
         {
             firstPlace.text = globalRanking.Rows[0]["name"] + " - " + globalRanking.Rows[0]["score"];
@@ -48,10 +46,8 @@ public class Leadboard : MonoBehaviour
             thridPlace.text = globalRanking.Rows[2]["name"] + " - " + globalRanking.Rows[2]["score"];
         }
 
-        // Pobierz wyniki sesji
         DataTable sessionRanking = DbConnect.Instance.GetSessionRanking();
 
-        // Przypisz wyniki do pól tekstowych
         if (sessionRanking.Rows.Count > 0)
         {
             firstPlaceSession.text = sessionRanking.Rows[0]["name"] + " - " + sessionRanking.Rows[0]["score"];
