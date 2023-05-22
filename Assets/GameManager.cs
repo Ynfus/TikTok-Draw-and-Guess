@@ -171,4 +171,5 @@ public class GameManager : MonoBehaviour
         changeStateChoosingWord.SetActive(false);
         successFailText.SetActive(false);
     }
+
 }
