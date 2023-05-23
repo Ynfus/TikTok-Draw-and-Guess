@@ -17,6 +17,8 @@ public class GetWord : MonoBehaviour
     [SerializeField] private GameObject word3;
     [SerializeField] private GameObject inputFieldWord;
     [SerializeField] private GameObject refreshButton;
+    [SerializeField] private GameObject insertButton;
+
 
     [SerializeField] private TextMeshProUGUI word1Text;
     [SerializeField] private TextMeshProUGUI word2Text;
@@ -49,6 +51,7 @@ public class GetWord : MonoBehaviour
         word2.SetActive(true);
         word3.SetActive(true);
         inputFieldWord.SetActive(true);
+        insertButton.SetActive(true);
         userInputField.gameObject.SetActive(true);
         word1Text.gameObject.SetActive(true);
         word2Text.gameObject.SetActive(true);
@@ -77,6 +80,7 @@ public class GetWord : MonoBehaviour
         word2.SetActive(false);
         word3.SetActive(false);
         inputFieldWord.SetActive(false);
+        insertButton.SetActive(false);
         userInputField.gameObject.SetActive(false);
         TiktokController.Instance.SetSelectedWord(buttonText);
         GameManager.Instance.SetDrawingState();

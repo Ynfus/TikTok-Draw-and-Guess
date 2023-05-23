@@ -1,20 +1,13 @@
 /// Basic profile picture handling example.
 /// - @sebheron 2022
 
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Networking;
 using TikTokLiveSharp.Client;
 using TikTokLiveSharp.Models;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using System;
-using UnityEngine.UIElements;
-using Microsoft.Unity.VisualStudio.Editor;
 using Image = UnityEngine.UIElements.Image;
 using System.Text;
 
@@ -50,6 +43,7 @@ public class TiktokController : MonoBehaviour
     private float timeElapsed;
 
     private string _selectedWord;
+    private string nickname;
 
     private bool isLooking = true;
 
@@ -72,6 +66,7 @@ public class TiktokController : MonoBehaviour
             timeElapsed = Time.timeSinceLevelLoad - drawingStartTime;
             if (timeElapsed > maxTime)
             {
+                nicknameInfo.gameObject.SetActive(false);
                 successFailText.text = "Fail";
                 GameManager.Instance.SetFailState();
                 winFailInfo.SetActive(true);
@@ -83,6 +78,9 @@ public class TiktokController : MonoBehaviour
                 GameManager.Instance.SetSuccessState();
                 winFailInfo.SetActive(true);
                 isLooking = true;
+                stateInfo.text = "Success!";
+                wordToGuess.text = _selectedWord.ToUpper();
+                nicknameInfo.text = nickname;
             }
         }
     }
@@ -136,16 +134,13 @@ public class TiktokController : MonoBehaviour
         {
             string selectedWord = _selectedWord.ToLower();
             string comment = e.Comment.ToLower();
-            if (comment.Contains("an") && isLooking)
+            if (comment.Contains("hej") && isLooking)
             {
+                nickname = e.User.Nickname;
                 isLooking = false;
                 float percentage = Mathf.Clamp01(timeElapsed / maxTime);
                 int points = Mathf.RoundToInt((1 - percentage) * maxPoints);
                 DbConnect.Instance.UpsertRanking(e.User.Nickname, points);
-                stateInfo.text = "Success!";
-                wordToGuess.text = _selectedWord.ToUpper();
-                nicknameInfo.text = e.User.Nickname;
-                isLooking = false;
             }
         }
     }

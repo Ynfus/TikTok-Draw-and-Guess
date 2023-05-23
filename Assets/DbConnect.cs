@@ -47,7 +47,7 @@ public class DbConnect : MonoBehaviour
 
         if (count > 0)
         {
-            _dbCommand.CommandText = "UPDATE session SET score = @score WHERE name = @name";
+            _dbCommand.CommandText = "UPDATE session SET score = score + @score WHERE name = @name";
             _dbCommand.Parameters.Add(new SqliteParameter("@score", score));
             _dbCommand.ExecuteNonQuery();
         }
@@ -65,7 +65,7 @@ public class DbConnect : MonoBehaviour
 
         if (count > 0)
         {
-            _dbCommand.CommandText = "UPDATE score SET score = @score WHERE name = @name";
+            _dbCommand.CommandText = "UPDATE score SET score = score + @score WHERE name = @name";
             _dbCommand.Parameters.Add(new SqliteParameter("@score", score));
             _dbCommand.ExecuteNonQuery();
         }
@@ -76,6 +76,7 @@ public class DbConnect : MonoBehaviour
             _dbCommand.ExecuteNonQuery();
         }
     }
+
 
     public DataTable GetGlobalRanking()
     {
