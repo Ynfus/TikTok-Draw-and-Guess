@@ -10,6 +10,8 @@ public class DbConnect : MonoBehaviour
     private IDbConnection _dbConnection;
     private IDbCommand _dbCommand;
 
+    [SerializeField] GameObject dropDatabaseOptions;
+
     const string conn = "URI=file:Assets/Imports/StreamingAssets/DrawAndGuess.db";
     public static DbConnect Instance { get; private set; }
 
@@ -119,5 +121,39 @@ public class DbConnect : MonoBehaviour
         _dbCommand.CommandText = "DROP TABLE IF EXISTS session";
         _dbCommand.ExecuteNonQuery();
         CloseConnection();
+    }
+    public void ClearTable(string tableName)
+    {
+        _dbCommand = _dbConnection.CreateCommand();
+        _dbCommand.CommandText = $"DELETE FROM {tableName}";
+        _dbCommand.ExecuteNonQuery();
+    }
+    public void sessionButton_Click()
+    {
+        ClearTable("session");
+        goBack();
+    }
+    public void openOptionsButton_Click()
+    {
+        dropDatabaseOptions.SetActive(true);
+    }
+    public void mainButton_Click()
+    {
+        ClearTable("score");
+        goBack();
+    }
+
+    public void bothButton_Click()
+    {
+        ClearTable("session");
+        ClearTable("score");
+        goBack();
+    }
+    public void goBack()
+    {
+        dropDatabaseOptions.SetActive(false);
+        GetSessionRanking();
+        GetGlobalRanking();
+
     }
 }

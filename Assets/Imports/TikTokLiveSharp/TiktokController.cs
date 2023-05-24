@@ -8,7 +8,6 @@ using TikTokLiveSharp.Models;
 using TMPro;
 using UnityEngine.UI;
 using System;
-using Image = UnityEngine.UIElements.Image;
 using System.Text;
 
 public class TiktokController : MonoBehaviour
@@ -27,7 +26,6 @@ public class TiktokController : MonoBehaviour
     [SerializeField] TextMeshProUGUI successFailText;
     [SerializeField] TextMeshProUGUI chatTextUI;
 
-    [SerializeField] Image circleImage;
 
     private StringBuilder chatText = new StringBuilder();
 
@@ -64,6 +62,7 @@ public class TiktokController : MonoBehaviour
         if (GameManager.Instance.IsDrawing())
         {
             timeElapsed = Time.timeSinceLevelLoad - drawingStartTime;
+            ClockUI.Instance.FillClock(((float)timeElapsed / maxTime ));
             if (timeElapsed > maxTime)
             {
                 nicknameInfo.gameObject.SetActive(false);

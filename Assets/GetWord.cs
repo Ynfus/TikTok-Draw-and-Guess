@@ -86,4 +86,5 @@ public class GetWord : MonoBehaviour
         GameManager.Instance.SetDrawingState();
     }
 
+
 }
