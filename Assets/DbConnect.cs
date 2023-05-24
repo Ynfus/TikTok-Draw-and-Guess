@@ -152,8 +152,7 @@ public class DbConnect : MonoBehaviour
     public void goBack()
     {
         dropDatabaseOptions.SetActive(false);
-        GetSessionRanking();
-        GetGlobalRanking();
+        Leadboard.Instance.UpdateRanking();
 
     }
 }

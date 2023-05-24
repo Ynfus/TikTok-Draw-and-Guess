@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     [SerializeField] GameObject changeStateChoosingWord;
-    [SerializeField] GameObject successFailText;
 
     [SerializeField] TextMeshProUGUI selectedWordText;
 
@@ -146,6 +145,5 @@ public class GameManager : MonoBehaviour
         currentGameState = GameState.ChoosingWord;
         OnStateChanged?.Invoke(this, EventArgs.Empty);
         changeStateChoosingWord.SetActive(false);
-        successFailText.SetActive(false);
     }
 }

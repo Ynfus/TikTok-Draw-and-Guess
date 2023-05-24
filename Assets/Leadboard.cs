@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class Leadboard : MonoBehaviour
 {
+    public static Leadboard Instance { get; private set; }
+
     [SerializeField] TextMeshProUGUI firstPlace;
     [SerializeField] TextMeshProUGUI secondPlace;
     [SerializeField] TextMeshProUGUI thridPlace;
@@ -14,6 +16,11 @@ public class Leadboard : MonoBehaviour
     [SerializeField] TextMeshProUGUI thridPlaceSession;
 
     private GameManager gameManager;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
     private void Start()
     {
         gameManager = GameManager.Instance;
@@ -29,7 +36,7 @@ public class Leadboard : MonoBehaviour
         }
     }
 
-    void UpdateRanking()
+     public void UpdateRanking()
     {
         DataTable globalRanking = DbConnect.Instance.GetGlobalRanking();
 

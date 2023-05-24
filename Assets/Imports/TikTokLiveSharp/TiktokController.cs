@@ -133,7 +133,7 @@ public class TiktokController : MonoBehaviour
         {
             string selectedWord = _selectedWord.ToLower();
             string comment = e.Comment.ToLower();
-            if (comment.Contains("hej") && isLooking)
+            if (comment.Contains("r") && isLooking)
             {
                 nickname = e.User.Nickname;
                 isLooking = false;
