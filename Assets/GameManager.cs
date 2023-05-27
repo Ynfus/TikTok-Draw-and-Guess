@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     [SerializeField] GameObject changeStateChoosingWord;
+    [SerializeField] GameObject cancelRoundBtn;
+
 
     [SerializeField] TextMeshProUGUI selectedWordText;
 
@@ -110,14 +112,11 @@ public class GameManager : MonoBehaviour
         return currentGameState == GameState.Drawing;
 
     }
-    public void SetChoosingWordState()
-    {
-        currentGameState = GameState.ChoosingWord;
-    }
     public void SetDrawingState()
     {
         currentGameState = GameState.Drawing;
         TiktokController.Instance.SetLooking();
+        cancelRoundBtn.SetActive(true);
     }
     public void SetFailState()
     {
@@ -126,6 +125,7 @@ public class GameManager : MonoBehaviour
         changeStateChoosingWord.SetActive(true);
         OnStateChanged?.Invoke(this, EventArgs.Empty);
         selectedWordText.text = "";
+        cancelRoundBtn.SetActive(false);
     }
     public void SetSuccessState()
     {
@@ -138,12 +138,20 @@ public class GameManager : MonoBehaviour
         OnStateChanged?.Invoke(this, EventArgs.Empty);
         DrawMesh.Instance.ClearCanva();
         selectedWordText.text = "";
-
+        cancelRoundBtn.SetActive(false);
     }
     public void SetChooseWordState()
     {
         currentGameState = GameState.ChoosingWord;
         OnStateChanged?.Invoke(this, EventArgs.Empty);
         changeStateChoosingWord.SetActive(false);
+    }
+    public void SetChooseWordStateByCancelBtn()
+    {
+        currentGameState = GameState.ChoosingWord;
+        OnStateChanged?.Invoke(this, EventArgs.Empty);
+        changeStateChoosingWord.SetActive(false);
+        cancelRoundBtn.SetActive(false);
+        DrawMesh.Instance.ClearCanva();
     }
 }
