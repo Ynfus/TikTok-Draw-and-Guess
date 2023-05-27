@@ -23,6 +23,7 @@ public class TiktokController : MonoBehaviour
     [SerializeField] TextMeshProUGUI nicknameInfo;
     [SerializeField] TextMeshProUGUI wordToGuess;
     [SerializeField] TextMeshProUGUI stateInfo;
+    [SerializeField] TextMeshProUGUI pointsInfo;
     [SerializeField] TextMeshProUGUI successFailText;
     [SerializeField] TextMeshProUGUI chatTextUI;
 
@@ -46,6 +47,7 @@ public class TiktokController : MonoBehaviour
     private bool isLooking = true;
 
     private int maxMessages = 2000;
+    private int pointsLast;
 
     private void Awake()
     {
@@ -65,8 +67,8 @@ public class TiktokController : MonoBehaviour
             ClockUI.Instance.FillClock(((float)timeElapsed / maxTime ));
             if (timeElapsed > maxTime)
             {
+                pointsInfo.gameObject.SetActive(false);
                 nicknameInfo.gameObject.SetActive(false);
-                successFailText.text = "Fail";
                 GameManager.Instance.SetFailState();
                 winFailInfo.SetActive(true);
                 stateInfo.text = "Fail!";
@@ -75,11 +77,14 @@ public class TiktokController : MonoBehaviour
             if (!isLooking)
             {
                 GameManager.Instance.SetSuccessState();
+                pointsInfo.gameObject.SetActive(true);
+                nicknameInfo.gameObject.SetActive(true);
                 winFailInfo.SetActive(true);
                 isLooking = true;
                 stateInfo.text = "Success!";
                 wordToGuess.text = _selectedWord.ToUpper();
                 nicknameInfo.text = nickname;
+                pointsInfo.text = "+ "+pointsLast.ToString();
             }
         }
     }
@@ -133,12 +138,13 @@ public class TiktokController : MonoBehaviour
         {
             string selectedWord = _selectedWord.ToLower();
             string comment = e.Comment.ToLower();
-            if (comment.Contains("r") && isLooking)
+            if (comment.Contains("ar") && isLooking)
             {
                 nickname = e.User.Nickname;
-                isLooking = false;
                 float percentage = Mathf.Clamp01(timeElapsed / maxTime);
                 int points = Mathf.RoundToInt((1 - percentage) * maxPoints);
+                pointsLast = points;
+                isLooking = false;
                 DbConnect.Instance.UpsertRanking(e.User.Nickname, points);
             }
         }

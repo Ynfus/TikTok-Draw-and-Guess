@@ -15,6 +15,12 @@ public class Leadboard : MonoBehaviour
     [SerializeField] TextMeshProUGUI secondPlaceSession;
     [SerializeField] TextMeshProUGUI thridPlaceSession;
 
+    [SerializeField] TextMeshProUGUI scorefirstPlace;
+    [SerializeField] TextMeshProUGUI scoresecondPlace;
+    [SerializeField] TextMeshProUGUI scorethridPlace;
+    [SerializeField] TextMeshProUGUI scorefirstPlaceSession;
+    [SerializeField] TextMeshProUGUI scoresecondPlaceSession;
+    [SerializeField] TextMeshProUGUI scorethridPlaceSession;
     private GameManager gameManager;
 
     private void Awake()
@@ -36,36 +42,76 @@ public class Leadboard : MonoBehaviour
         }
     }
 
-     public void UpdateRanking()
+    public void UpdateRanking()
     {
         DataTable globalRanking = DbConnect.Instance.GetGlobalRanking();
 
-        if (globalRanking.Rows.Count > 0)
+        if (globalRanking != null && globalRanking.Rows.Count > 0)
         {
-            firstPlace.text = globalRanking.Rows[0]["name"] + " - " + globalRanking.Rows[0]["score"];
+            firstPlace.text = globalRanking.Rows[0]["name"].ToString();
+            scorefirstPlace.text = globalRanking.Rows[0]["score"].ToString();
         }
-        if (globalRanking.Rows.Count > 1)
+        else
         {
-            secondPlace.text = globalRanking.Rows[1]["name"] + " - " + globalRanking.Rows[1]["score"];
+            firstPlace.text = "No data";
+            scorefirstPlace.text = "-";
         }
-        if (globalRanking.Rows.Count > 2)
+
+        if (globalRanking != null && globalRanking.Rows.Count > 1)
         {
-            thridPlace.text = globalRanking.Rows[2]["name"] + " - " + globalRanking.Rows[2]["score"];
+            secondPlace.text = globalRanking.Rows[1]["name"].ToString();
+            scoresecondPlace.text = globalRanking.Rows[1]["score"].ToString();
+        }
+        else
+        {
+            secondPlace.text = "No data";
+            scoresecondPlace.text = "-";
+        }
+
+        if (globalRanking != null && globalRanking.Rows.Count > 2)
+        {
+            thridPlace.text = globalRanking.Rows[2]["name"].ToString();
+            scorethridPlace.text =  globalRanking.Rows[2]["score"].ToString();
+        }
+        else
+        {
+            thridPlace.text = "No data";
+            scorethridPlace.text = "-";
         }
 
         DataTable sessionRanking = DbConnect.Instance.GetSessionRanking();
 
-        if (sessionRanking.Rows.Count > 0)
+        if (sessionRanking != null && sessionRanking.Rows.Count > 0)
         {
-            firstPlaceSession.text = sessionRanking.Rows[0]["name"] + " - " + sessionRanking.Rows[0]["score"];
+            firstPlaceSession.text = sessionRanking.Rows[0]["name"].ToString();
+            scorefirstPlaceSession.text = sessionRanking.Rows[0]["score"].ToString();
         }
-        if (sessionRanking.Rows.Count > 1)
+        else
         {
-            secondPlaceSession.text = sessionRanking.Rows[1]["name"] + " - " + sessionRanking.Rows[1]["score"];
+            firstPlaceSession.text = "No data";
+            scorefirstPlaceSession.text = "-";
         }
-        if (sessionRanking.Rows.Count > 2)
+
+        if (sessionRanking != null && sessionRanking.Rows.Count > 1)
         {
-            thridPlaceSession.text = sessionRanking.Rows[2]["name"] + " - " + sessionRanking.Rows[2]["score"];
+            secondPlaceSession.text = sessionRanking.Rows[1]["name"].ToString();
+            scoresecondPlaceSession.text =sessionRanking.Rows[1]["score"].ToString();
+        }
+        else
+        {
+            secondPlaceSession.text = "No data";
+            scoresecondPlaceSession.text = "-";
+        }
+
+        if (sessionRanking != null && sessionRanking.Rows.Count > 2)
+        {
+            thridPlaceSession.text = sessionRanking.Rows[2]["name"].ToString();
+            scorethridPlaceSession.text = sessionRanking.Rows[2]["score"].ToString();
+        }
+        else
+        {
+            thridPlaceSession.text = "No data";
+            scorethridPlaceSession.text = "-";
         }
     }
 
