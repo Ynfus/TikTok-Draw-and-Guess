@@ -1,11 +1,10 @@
 # TikTok-Draw-and-Guess
 
-TikTok-Draw-and-Guess to aplikacja do gry w kalambury, która wykorzystuje API TikTokLiveSharp autorstwa sebheron dostępne na GitHubie. Aplikacja umożliwia
-połączenie live'ów, podczas których gracze mogą odgadywać rysunki, a prowadzący może kontrolować czat i wprowadzać własne hasła.
+TikTok-Draw-and-Guess is an application for playing Pictionary that utilizes the TikTokLiveSharp API created by sebheron and available on GitHub. The application allows for live connections where players can guess drawings, and the host can control the chat and input their own prompts.
 
-Funkcje:
--Generowanie losowych haseł: Aplikacja korzysta z bazy danych, aby wylosować trzy słowa, spośród których możesz wybrać hasło do narysowania.
--Własne hasła: Masz możliwość wprowadzania własnych haseł, które zostaną wykorzystane w grze, dając ci pełną kontrolę nad treścią.
--Nadzór nad czatem: Dzięki tej funkcji masz stały nadzór nad czatem, co pozwala ci kontrolować interakcje z oglądającymi i utrzymywać interaktywną atmosferę.
--Widok dla oglądających: Oglądający mogą obserwować twój rysunek w czasie rzeczywistym i zgadywać hasła, wpisując odpowiedzi w czacie. 
-Dodatkowo, w widoku dla oglądających znajduje się ranking sesji oraz ranking ogólny, co sprawia, że rozgrywka staje się jeszcze bardziej emocjonująca.
+Features:
+
+- Random prompt generation: The application uses a database to randomly select three words from which you can choose a prompt to draw.
+- Custom prompts: You have the option to input your own prompts that will be used in the game, giving you full control over the content.
+- Chat moderation: With this feature, you have constant oversight of the chat, allowing you to control interactions with viewers and maintain an interactive atmosphere.
+- Viewer mode: Viewers can observe your drawing in real-time and guess the prompts by entering their answers in the chat. Additionally, the viewer mode includes session rankings and overall rankings, making the gameplay even more exciting.
